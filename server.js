@@ -5,9 +5,10 @@ var session = require('express-session');
 
 
 
+
 // create express app
 const app = express();
-
+const Message = require('./model/message.model');
 app.use(methodOverride('_method'));
 app.use(session({
     secret: 'ssshhhhh'
@@ -48,13 +49,14 @@ const io = require("socket.io")(server)
 
 //listen on every connection
 io.on('connection', (socket) => {
+    socket.on('create', function (room) {
+        console.log(room.room)
+        socket.join(room.room);
+    });
     console.log('New user connected')
 
-    //default username
-    //socket.username = "Anonymous"
-
-    //listen on change_username
     socket.on('change_username', (data) => {
+
         console.log('Name Changed: ' + data.username);
         socket.username = data.username
     })
@@ -62,17 +64,27 @@ io.on('connection', (socket) => {
     //listen on new_message
     socket.on('new_message', (data) => {
         //broadcast the new message
-        io.sockets.emit('new_message', {
+        const message = new Message({
+            room: data.room,
             message: data.message,
-            username: socket.username,
-            type: 'problem-setter'
+            userName: data.userName,
+            userRole: data.role
         });
+        message.save();
+
+        io.sockets.in(data.room).emit('new_message', data);
+
+        // io.sockets.emit('new_message', {
+        //     message: data.message,
+        //     username: socket.username,
+        //     type: 'problem-setter'
+        // });
     })
 
     //listen on typing
-    socket.on('typing', (data) => {
-        socket.broadcast.emit('typing', {
-            username: socket.username
-        })
-    })
+    // socket.on('typing', (data) => {
+    //     socket.broadcast.emit('typing', {
+    //         username: socket.username
+    //     })
+    // })
 })

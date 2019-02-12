@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	function setCookie() {
-		var rows = $("#u").val();
+		var rows = $("#userName").val();
 		cname = 'userName';
 		cvalue = rows;
 		var d = new Date();
@@ -10,27 +10,39 @@ $(document).ready(function () {
 	}
 
 	//make connection
-	var socket = io.connect('http://192.168.1.54:3000')
+	var socket = io.connect('localhost:3000')
 	setCookie();
-	socket.emit('change_username', {
-		username: getCookie('userName')
 
-	});
-	// socket.emit('change_username', {
-	//     username: $.cookie('userName')
-	// });
-	// alert($.cookie('userName'));
-	//buttons and inputs
 	var message = $("#message")
 	var send_message = $("#btn")
 	// var chatroom = $("#chatroom")
 	var feedback = $("#feedback")
 
+	var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = window.location.search.substring(1),
+			sURLVariables = sPageURL.split('&'),
+			sParameterName,
+			i;
 
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+			}
+		}
+	};
+	const roomId = getUrlParameter('room');
+
+	socket.emit('create', {
+		room: roomId
+	})
 	//Emit message
 	send_message.click(function () {
 		socket.emit('new_message', {
-			message: message.val()
+			message: message.val(),
+			userName: $("#userName").val() || 'Unknown',
+			room: roomId
 		})
 	})
 
@@ -38,7 +50,7 @@ $(document).ready(function () {
 	socket.on("new_message", (data) => {
 		feedback.html('');
 		message.val('');
-		$("#temp").before(mine("x", data.message));
+		$("#temp").before(mine(data.userName, data.message));
 		//	chatroom.append(firstPart + data.username + ": " + data.message + "</p>")
 	})
 

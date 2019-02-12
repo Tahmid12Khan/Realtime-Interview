@@ -9,8 +9,8 @@
 </head>
 
 <body style="padding:10px">
-    <input type="hidden" id="u" value=<%-JSON.stringify(name) %>>
-    <input type="hidden" id="u" value=<%-problem._id %>>
+    <input type="hidden" id="userName" value=<%-JSON.stringify(name) %>>
+    <input type="hidden" id="_id" value=<%-problem._id %>>
     <div class="parent-container">
 
         <div class="container leftSide">
@@ -22,32 +22,32 @@
                             <span class="glyphicon glyphicon-align-left"></span>
                         </button>
                     </span>
-                    <p class="text-center f-16"><b>
+                    <p id='title' class="text-center f-16"><b>
                             <%- problem.problemTitle %></b></p>
 
                 </div>
 
                 <div class="col-12 text-center">
-                    <span>Time Limit :
-                        <%- problem.timeLimit %> sec</span><br>
-                    <span>Memory Limit :
-                        <%- problem.memoryLimit %> megabytes</span>
+                    Time Limit : <span id='timeLimit'>
+                        <%- problem.timeLimit %> </span>sec<br>
+                    Memory Limit : <span id='memoryLimit'>
+                        <%- problem.memoryLimit %> </span>megabytes
 
                 </div>
 
                 <br>
 
                 <div class="col-12" id="demo">
-                    <pre><%- problem.problemDetails %></pre>
+                    <pre id="details"><%- problem.problemDetails %></pre>
                 </div>
                 <div class="col-12">
                     <h4>Input</h4>
                     <div class="bg-info">
-                        <pre><%- problem.sampleInput %>  </pre>
+                        <pre id='sampleInput'><%- problem.sampleInput %>  </pre>
                     </div>
                     <h4>Output</h4>
                     <div class="bg-info">
-                        <pre><%- problem.sampleOutput %>  </pre>
+                        <pre id='sampleOutput'><%- problem.sampleOutput %>  </pre>
                     </div>
 
 
@@ -62,14 +62,14 @@
             <div class="row">
 
                 <div class="col text-right">
-                    <button id="submit" class="btn btn-primary">Run </button>
+                    <button id="run" class="btn btn-primary">Run </button>
                     <button id="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col text-center bg-success" style="height:50px;">
-                    Result
+                <div id='result' class="col text-center bg-success" style="height:50px;">
+
                 </div>
             </div>
         </div>

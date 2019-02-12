@@ -35,7 +35,7 @@ $(document).ready(function () {
     if (window.location.href.indexOf("#") <= -1) {
         $(window).attr('location', location + "#" + roomId);
     }
-  
+
     var config = {
         apiKey: "AIzaSyDIj1NLnXxGN9h_3aoE1TMSvBcsyiMTD8o",
         authDomain: "test-1aa2a.firebaseapp.com",
@@ -66,17 +66,19 @@ $(document).ready(function () {
     });
     var whatMessage;
 
-    $('#submit').click(function () {
+    $('#run').click(function () {
         console.log(firepad.getText())
         console.log(btoa(firepad.getText()))
+        console.log('Time: ' + parseFloat($('#timeLimit').text()).toFixed(2) + " X " + $('#timeLimit').text())
         $.ajax({
             type: "POST",
             url: url + "?base64_encoded=true",
             data: {
                 "source_code": btoa(firepad.getText()),
                 "language_id": 29,
-                "expected_output": "SGVsbG8gV29ybGQ=",
-                "stdin": "kjdksajd"
+                "expected_output": btoa($('#sampleOutput').text()),
+                "stdin": btoa($('#sampleInput').text()),
+                "cpu_time_limit": parseFloat($('#timeLimit').text()).toFixed(2)
             },
             success: function (json) {
                 setTimeout(function () {
@@ -84,11 +86,7 @@ $(document).ready(function () {
                     console.log(json.token)
                     getResult(json.token)
                     console.log("What " + whatMessage)
-                    // while (breakFunction(whatMessage) == true) {
 
-                    //     // await sleep(1000)
-                    //     res = getResult(json.token)
-                    // }
                 }, 2000)
 
             },
@@ -97,8 +95,20 @@ $(document).ready(function () {
         })
     });
 
-
-
+    $("#submit").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/submission",
+            data: {
+                sourceCode: btoa(firepad.getText()),
+                _id: $("#_id").val()
+            },
+            success: function (json) {
+                $('#result').text(json.status.description);
+                console.log("JSON " + json);
+            }
+        })
+    })
 
     function getResult(token) {
         const getUrl = url + "/" + token;
@@ -107,6 +117,7 @@ $(document).ready(function () {
             url: getUrl,
             success: function (json) {
                 console.log('Res: ' + json.status.description)
+                $('#result').text(json.status.description);
                 whatMessage = json.status.description;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -116,7 +127,7 @@ $(document).ready(function () {
             }
 
         })
-
-
     }
+
+
 });

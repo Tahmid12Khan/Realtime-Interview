@@ -35,4 +35,7 @@ module.exports = (app) => {
 
     app.get('/room', rooms.goToRoom);
 
+    app.post('/submission', rooms.getResult);
+    app.get('/room/:id', rooms.getAllMessages);
+
 }
