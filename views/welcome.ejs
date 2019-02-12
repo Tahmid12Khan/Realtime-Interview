@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/welcome.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-url-parser/2.3.1/purl.js"></script>
+</head>
+
+<body style="padding:10px">
+    <input type="hidden" id="u" value=<%-JSON.stringify(name) %>>
+    <input type="hidden" id="u" value=<%-problem._id %>>
+    <div class="parent-container">
+
+        <div class="container leftSide">
+
+            <div class="row">
+                <div class="col-12">
+                    <span>
+                        <button type="button" data-toggle="collapse" style="margin:5px;" data-target="#demo">
+                            <span class="glyphicon glyphicon-align-left"></span>
+                        </button>
+                    </span>
+                    <p class="text-center f-16"><b>
+                            <%- problem.problemTitle %></b></p>
+
+                </div>
+
+                <div class="col-12 text-center">
+                    <span>Time Limit :
+                        <%- problem.timeLimit %> sec</span><br>
+                    <span>Memory Limit :
+                        <%- problem.memoryLimit %> megabytes</span>
+
+                </div>
+
+                <br>
+
+                <div class="col-12" id="demo">
+                    <pre><%- problem.problemDetails %></pre>
+                </div>
+                <div class="col-12">
+                    <h4>Input</h4>
+                    <div class="bg-info">
+                        <pre><%- problem.sampleInput %>  </pre>
+                    </div>
+                    <h4>Output</h4>
+                    <div class="bg-info">
+                        <pre><%- problem.sampleOutput %>  </pre>
+                    </div>
+
+
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col myEditor">
+                    <div id="firepad-container"> </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+
+                <div class="col text-right">
+                    <button id="submit" class="btn btn-primary">Run </button>
+                    <button id="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col text-center bg-success" style="height:50px;">
+                    Result
+                </div>
+            </div>
+        </div>
+
+        <div class="container rightSide">
+            <div class="row topRow">
+                <div class="col text-right">
+                    <button class="btn btn-primary">Logout</button>
+                </div>
+            </div>
+            <br>
+            <!-- <div class="row"> 
+                <div class="col-12 text-center">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">Discussion</div>
+                      </div>
+                </div>
+            </div> -->
+            <div class="row bottomRow">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Discussion
+                        </div>
+                        <div class="panel-body" id="chatroom">
+                            <span id="temp" style=" position: absolute;bottom: 80;left: 0;"></span>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm" id="btn">
+                                        Send
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="js/chat.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/search/jump-to-line.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/active-line.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/xml-fold.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/edit/matchtags.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js"></script>
+<script src="js/onlineCompiler.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
+<link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+<script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+
+
+</html>

@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="row mx-2">
+        <div class="col text-center">
+            <h1>Your Rooms</h1>
+        </div>
+    </div>
+    <div class="row mt-3 mx-2 text-center">
+        <div class="col text-center">
+            <table class="table-sm text-center" border="1">
+                <tr>
+
+                    <th>Room Id</th>
+                    <th>Room Name</th>
+                    <th>Problem id</th>
+                    <th>Action</th>
+                </tr>
+                <% if(rooms) {%>
+                <% rooms.forEach(function(room) {%>
+                <tr>
+                    <td>
+                        <%- room._id %>
+                    </td>
+                    <td>
+                        <%- room.roomName %>
+                    </td>
+                    <td>
+                        <%- room.problemId %>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Go To Room</button>
+                    </td>
+                </tr>
+
+                <% })} %>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
